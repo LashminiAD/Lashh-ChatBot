@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lashhh AI Chatbot</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --bg:#0d0e14;
+  --surface:#13141d;
+  --surface2:#1c1d2b;
+  --border:#252638;
+
+  /* Pink Purple Theme */
+  --accent:#ff4fd8;
+  --accent2:#d946ef;
+
+  --user:#2d1f45;
+  --bot:#181926;
+  --text:#e8e9f3;
+  --muted:#8a8ca5;
+  --danger:#ff4d6d;
+
+  --radius:14px;
+
+  --font:'Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+}
+
+/* App */
+#app{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  max-width:860px;
+  margin:auto;
+}
+
+/* Header */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  font-size:28px;
+  color:var(--accent);
+}
+
+.app-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.app-sub{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.hbtn{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--muted);
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.hbtn:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+/* Chat */
+.chat-main{
+  flex:1;
+  overflow:hidden;
+}
+
+.chat-window{
+  height:100%;
+  overflow-y:auto;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* Empty */
+.empty{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:14px;
+}
+
+.empty-icon{
+  font-size:55px;
+  color:var(--accent);
+}
+
+.empty h2{
+  font-size:24px;
+}
+
+.empty p{
+  color:var(--muted);
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.chip{
+  border:1px solid var(--border);
+  padding:8px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.chip:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+/* Messages */
+.row{
+  display:flex;
+  gap:10px;
+  align-items:flex-end;
+}
+
+.row-user{
+  flex-direction:row-reverse;
+}
+
+.avatar{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-weight:700;
+}
+
+.av-user{
+  background:var(--user);
+  border:1px solid var(--accent);
+}
+
+.av-bot{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--accent);
+}
+
+.bubble{
+  max-width:70%;
+  padding:12px 16px;
+  border-radius:14px;
+  line-height:1.6;
+}
+
+.bubble-user{
+  background:var(--user);
+}
+
+.bubble-bot{
+  background:var(--bot);
+  border:1px solid var(--border);
+}
+
+.bubble-text pre{
+  background:#0a0b10;
+  padding:10px;
+  border-radius:8px;
+  overflow-x:auto;
+  margin:8px 0;
+}
+
+.bubble-text code{
+  background:#0a0b10;
+  padding:2px 4px;
+  border-radius:4px;
+  font-family:var(--mono);
+}
+
+.btime{
+  display:block;
+  margin-top:5px;
+  font-size:10px;
+  color:var(--muted);
+  text-align:right;
+}
+
+/* Typing */
+.typing{
+  display:flex;
+  gap:5px;
+  padding:14px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:blink 1s infinite;
+}
+
+.dot:nth-child(2){
+  animation-delay:.2s;
+}
+
+.dot:nth-child(3){
+  animation-delay:.4s;
+}
+
+@keyframes blink{
+  0%,100%{opacity:.3}
+  50%{opacity:1}
+}
+
+/* Footer */
+.chat-footer{
+  padding:15px;
+  border-top:1px solid var(--border);
+  background:var(--surface);
+}
+
+.input-box{
+  display:flex;
+  gap:10px;
+  align-items:flex-end;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  padding:10px 12px;
+  border-radius:14px;
+}
+
+.input-box:focus-within{
+  border-color:var(--accent);
+}
+
+textarea{
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  resize:none;
+  color:var(--text);
+  font-family:var(--font);
+  min-height:24px;
+  max-height:150px;
+}
+
+textarea::placeholder{
+  color:var(--muted);
+}
+
+.input-actions{
+  display:flex;
+  gap:8px;
+}
+
+.btn-mic,
+.btn-send{
+  width:38px;
+  height:38px;
+  border-radius:8px;
+  cursor:pointer;
+  border:none;
+  font-size:18px;
+}
+
+.btn-mic{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+
+.btn-mic:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+.btn-send{
+  background:var(--accent);
+  color:black;
+  font-weight:700;
+}
+
+.btn-send:hover{
+  background:var(--accent2);
+}
+
+/* Error */
+.error-bar{
+  display:none;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 20px;
+  background:rgba(255,77,109,.15);
+  color:var(--danger);
+}
+
+.error-bar button{
+  background:none;
+  border:none;
+  color:var(--danger);
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<header class="header">
+  <div class="header-left">
+    <div class="logo">✦</div>
+
+    <div>
+      <div class="app-title">Lashhh AI</div>
+      <div class="app-sub">Powered by Groq</div>
+    </div>
+  </div>
+
+  <button class="hbtn" onclick="clearChat()">⟳ Clear</button>
+</header>
+
+<main class="chat-main">
+  <div class="chat-window" id="chatWindow">
+
+    <div class="empty" id="emptyState">
+      <div class="empty-icon">✦</div>
+
+      <h2>Welcome to Lashhh AI ✨</h2>
+
+      <p>Your own futuristic AI assistant.</p>
+
+      <div class="chips">
+        <div class="chip" onclick="sendChip(this)">
+          Explain quantum computing simply
+        </div>
+
+        <div class="chip" onclick="sendChip(this)">
+          Write a Python sorting algorithm
+        </div>
+
+        <div class="chip" onclick="sendChip(this)">
+          Best way to learn React?
+        </div>
+
+        <div class="chip" onclick="sendChip(this)">
+          Summarise the French Revolution
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="error-bar" id="errorBar">
+  <span id="errorMsg"></span>
+  <button onclick="hideError()">✕</button>
+</div>
+
+<footer class="chat-footer">
+  <div class="input-box">
+
+    <textarea
+      id="msg"
+      rows="1"
+      placeholder="Message Lashhh AI…"
+      oninput="autoGrow(this)"
+      onkeydown="handleKey(event)"
+    ></textarea>
+
+    <div class="input-actions">
+      <button class="btn-mic" onclick="toggleVoice()">🎙</button>
+
+      <button class="btn-send" id="sendBtn" onclick="sendMessage()">
+        ↑
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+</div>
+
+<script>
+
+/* ADD YOUR API KEY HERE */
+const API_KEY = prompt("Enter your Groq API Key");
+  
+const SYSTEM_PROMPT =
+'You are Lashhh AI, a futuristic, friendly and intelligent AI assistant.';
+
+let history = [
+  {
+    role:'system',
+    content:SYSTEM_PROMPT
+  }
+];
+
+let loading = false;
+
+/* Send */
+async function sendMessage(text){
+
+  const ta = document.getElementById('msg');
+
+  const content = (text || ta.value).trim();
+
+  if(!content || loading) return;
+
+  ta.value = '';
+
+  document.getElementById('emptyState').style.display='none';
+
+  renderBubble('user',content);
+
+  history.push({
+    role:'user',
+    content
+  });
+
+  const typingId='typing-'+Date.now();
+
+  renderTyping(typingId);
+
+  loading=true;
+
+  try{
+
+    const res = await fetch(
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
+        method:'POST',
+
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':'Bearer '+API_KEY
+        },
+
+        body:JSON.stringify({
+          model:'llama-3.3-70b-versatile',
+
+          messages:history.map(
+            ({role,content})=>({role,content})
+          ),
+
+          temperature:0.7,
+          max_tokens:1024
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if(!res.ok){
+      throw new Error(
+        data.error?.message || 'API Error'
+      );
+    }
+
+    removeTyping(typingId);
+
+    const reply =
+      data.choices[0].message.content;
+
+    renderBubble('assistant',reply);
+
+    history.push({
+      role:'assistant',
+      content:reply
+    });
+
+  }catch(err){
+
+    removeTyping(typingId);
+
+    showError(err.message);
+
+  }finally{
+    loading=false;
+  }
+}
+
+/* Bubble */
+function renderBubble(role,content){
+
+  const win=document.getElementById('chatWindow');
+
+  const row=document.createElement('div');
+
+  row.className='row '+
+    (role==='user' ? 'row-user':'');
+
+  const av=document.createElement('div');
+
+  av.className='avatar '+
+    (role==='user' ? 'av-user':'av-bot');
+
+  av.textContent =
+    role==='user' ? 'U':'✦';
+
+  const bubble=document.createElement('div');
+
+  bubble.className='bubble '+
+    (role==='user'
+      ? 'bubble-user'
+      : 'bubble-bot');
+
+  bubble.innerHTML=
+  `
+  <div class="bubble-text">
+    ${renderMd(content)}
+  </div>
+
+  <span class="btime">
+    ${new Date().toLocaleTimeString([],{
+      hour:'2-digit',
+      minute:'2-digit'
+    })}
+  </span>
+  `;
+
+  row.appendChild(av);
+
+  row.appendChild(bubble);
+
+  win.appendChild(row);
+
+  win.scrollTop=win.scrollHeight;
+}
+
+/* Markdown */
+function renderMd(t){
+
+  return t
+  .replace(/```([\s\S]*?)```/g,
+    '<pre><code>$1</code></pre>')
+  .replace(/`([^`]+)`/g,
+    '<code>$1</code>')
+  .replace(/\*\*(.*?)\*\*/g,
+    '<strong>$1</strong>')
+  .replace(/\*(.*?)\*/g,
+    '<em>$1</em>')
+  .replace(/\n/g,'<br>');
+}
+
+/* Typing */
+function renderTyping(id){
+
+  const win=document.getElementById('chatWindow');
+
+  const row=document.createElement('div');
+
+  row.className='row';
+
+  row.id=id;
+
+  row.innerHTML=
+  `
+  <div class="avatar av-bot">✦</div>
+
+  <div class="bubble bubble-bot typing">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+  `;
+
+  win.appendChild(row);
+
+  win.scrollTop=win.scrollHeight;
+}
+
+function removeTyping(id){
+
+  const el=document.getElementById(id);
+
+  if(el) el.remove();
+}
+
+/* Input */
+function autoGrow(el){
+
+  el.style.height='auto';
+
+  el.style.height=
+    Math.min(el.scrollHeight,150)+'px';
+}
+
+function handleKey(e){
+
+  if(e.key==='Enter' && !e.shiftKey){
+
+    e.preventDefault();
+
+    sendMessage();
+  }
+}
+
+/* Chips */
+function sendChip(el){
+
+  sendMessage(el.textContent);
+}
+
+/* Clear */
+function clearChat(){
+
+  const win=document.getElementById('chatWindow');
+
+  [...win.querySelectorAll('.row')]
+  .forEach(r=>r.remove());
+
+  document.getElementById('emptyState')
+  .style.display='flex';
+
+  history=[
+    {
+      role:'system',
+      content:SYSTEM_PROMPT
+    }
+  ];
+}
+
+/* Voice */
+function toggleVoice(){
+
+  const SR=
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SR){
+
+    alert(
+      'Voice not supported in this browser'
+    );
+
+    return;
+  }
+
+  const rec=new SR();
+
+  rec.lang='en-US';
+
+  rec.onresult=e=>{
+
+    document.getElementById('msg').value=
+      e.results[0][0].transcript;
+  };
+
+  rec.start();
+}
+
+/* Error */
+function showError(msg){
+
+  document.getElementById('errorMsg')
+  .textContent='⚠ '+msg;
+
+  document.getElementById('errorBar')
+  .style.display='flex';
+}
+
+function hideError(){
+
+  document.getElementById('errorBar')
+  .style.display='none';
+}
+
+</script>
+
+</body>
+</html>
