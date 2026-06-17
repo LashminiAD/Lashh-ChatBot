@@ -1,102 +1,50 @@
 # ✦ Lashhh AI Chatbot
 
-A sleek futuristic AI chatbot powered by Groq API with a modern responsive UI inspired by ChatGPT.
+A sleek, futuristic AI chatbot powered by the Groq API, with a responsive UI inspired by ChatGPT.
 
----
+## Features
 
-## ✨ Features
+- Modern, responsive chat UI with a pink-purple theme
+- Powered by Groq AI
+- Voice input support
+- Markdown rendering in responses
+- Auto-growing textarea
+- Mobile-friendly design
 
-* 💬 Modern responsive chat UI
-* ⚡ Powered by Groq AI
-* 🎙 Voice input support
-* 🧠 Markdown rendering
-* 📱 Mobile friendly design
-* 🌈 Futuristic pink-purple theme
-* 💾 Saves API key using localStorage
-* ⌨ Auto-growing textarea
-* 🚀 Fast and lightweight
+## Tech Stack
 
----
+HTML · CSS · JavaScript · Groq API
 
-## 🛠 Technologies Used
+## Preview
 
-* HTML
-* CSS
-* JavaScript
-* Groq API
+*(keep your existing preview images here)*
 
----
-
-## 📸 Preview
-
-<img width="994" height="938" alt="image" src="https://github.com/user-attachments/assets/c499d24c-bfef-4352-99b3-482867a8580a" />
-
-<img width="994" height="949" alt="image" src="https://github.com/user-attachments/assets/4252a227-9d77-4499-9490-7f1b80721bd3" />
-
----
-
-## 🚀 Live Demo
-
-Add your GitHub Pages link here:
+## Setup
 
 ```bash
-https://yourusername.github.io/Lashh-ChatBot/
+git clone https://github.com/LashminiAD/Lashh-ChatBot.git
 ```
 
----
+Open `bot.html` in your browser, enter your Groq API key when prompted, and start chatting.
 
-## ⚙ Setup
+Get a free API key at [console.groq.com/keys](https://console.groq.com/keys).
 
-1. Clone the repository
+## ⚠️ Known Limitation
 
-```bash
-git clone https://github.com/yourusername/Lashh-ChatBot.git
-```
+This is a client-side demo project — the Groq API key is stored in the browser's `localStorage` for convenience, which means it's **not encrypted and is readable by anyone with access to the browser** (devtools, extensions, or anyone using the same device). Don't use a key tied to a paid/production Groq account here. A safer approach for a real deployment would route requests through a small backend so the key never reaches the browser at all — this is on the future improvements list.
 
-2. Open `index.html`
+## Future Improvements
 
-3. Enter your Groq API key when prompted
+- Move API key handling to a backend proxy (remove client-side key storage)
+- Chat history persistence
+- User authentication
+- Theme switcher
+- File upload support
 
-4. Start chatting ✨
+## License
 
----
+MIT
 
-## 🔑 Get Groq API Key
+## Author
 
-Visit:
-
-https://console.groq.com/keys
-
-Create a free API key and paste it into the chatbot when requested.
-
----
-
-## 📱 Responsive Design
-
-Works smoothly on:
-
-* Desktop
-* Mobile
-* Tablet
-
----
-
-## 🌟 Future Improvements
-
-* Chat history database
-* User authentication
-* Theme switcher
-* File upload support
-* Image generation
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## 💖 Created By
-
-Lashh ✨
+**Lashmini Anand** — [@LashminiAD](https://github.com/LashminiAD)
